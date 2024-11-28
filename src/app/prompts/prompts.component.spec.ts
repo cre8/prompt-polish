@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PromptsComponent } from './prompts.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PromptsComponent', () => {
   let component: PromptsComponent;
@@ -8,9 +9,8 @@ describe('PromptsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PromptsComponent]
-    })
-    .compileComponents();
+      imports: [PromptsComponent, BrowserAnimationsModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PromptsComponent);
     component = fixture.componentInstance;

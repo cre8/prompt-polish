@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { OpenAIComponent } from './open-ai.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('OpenAIComponent', () => {
   let component: OpenAIComponent;
@@ -8,9 +8,8 @@ describe('OpenAIComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OpenAIComponent]
-    })
-    .compileComponents();
+      imports: [OpenAIComponent, BrowserAnimationsModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OpenAIComponent);
     component = fixture.componentInstance;

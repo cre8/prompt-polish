@@ -21,6 +21,4 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'prompt-polish';
-}
+export class AppComponent {}
