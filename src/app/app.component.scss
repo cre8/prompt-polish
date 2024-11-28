@@ -1,0 +1,9 @@
+:host {
+  width: 600px;
+  display: block;
+}
+
+mat-toolbar {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-primary);
+}

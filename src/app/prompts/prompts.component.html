@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayoutGap="16px">
+  <div>
+    <mat-selection-list #selected>
+      @for(prompt of prompts; track prompt) {
+      <mat-list-option [value]="prompt">
+        <span mat-line>{{ prompt }}</span>
+      </mat-list-option>
+      }
+    </mat-selection-list>
+    <button
+      mat-flat-button
+      (click)="remove(selected.selectedOptions.selected)"
+      [disabled]="selected.selectedOptions.selected.length === 0"
+    >
+      Remove
+    </button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="add()" fxLayout="column">
+    <mat-form-field>
+      <mat-label>Prompt</mat-label>
+      <input matInput formControlName="prompt" title="Prompt" />
+    </mat-form-field>
+    <button mat-flat-button type="submit" [disabled]="form.invalid">Add</button>
+  </form>
+</div>

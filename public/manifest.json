@@ -1,0 +1,47 @@
+{
+  "name": "PromptPolish",
+  "version": "0.1.0",
+  "description": "A tool updating selected text with a defined prompt",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Prompt Polish",
+    "default_popup": "index.html",
+    "default_icon": {
+      "32": "images/icon.png"
+    }
+  },
+  "icons": {
+    "32": "images/icon.png",
+    "48": "images/icon.png"
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "commands": {
+    "send-selected-text": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "MacCtrl+Shift+S"
+      },
+      "description": "Send selected text to the application"
+    }
+  },
+  "permissions": ["activeTab", "scripting", "storage"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["index.html", "images/*", "*.js", "styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["styles.css"],
+      "js": ["scripts/content-script.js"],
+      "all_frames": true
+    }
+  ]
+}
