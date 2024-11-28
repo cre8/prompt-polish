@@ -1,59 +1,27 @@
 # PromptPolish
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+PromptPolish a chrome extension, allowing you to copy content, polish it up with a prompt and an AI model, and paste it back to in the website.
 
-## Development server
+## Installation
 
-To start a local development server, run:
+In the future this extension will be available on the Chrome Web Store, but for now you need to install it manually by downloading the latest release from the release page.
 
-```bash
-ng serve
-```
+## Security
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Prompt information and access tokens are stored in the browser storage and will not be shared with any third party.
 
-## Code scaffolding
+## Supported AI Services
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Right now only OpenAI is supported, but the tool is designed to support multiple AI services in the future.
 
-```bash
-ng generate component component-name
-```
+## Development
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The extension is built using Angular. To run the extension locally, follow the steps below:
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Clone the repository
+- Run `pnpm install`
+- Run `pnpm run build`
+- Open Chrome and go to `chrome://extensions/`
+- Enable developer mode
+- Click on `Load unpacked`
+- Select the `dist/prompt-polish/browser/` folder in the repository.

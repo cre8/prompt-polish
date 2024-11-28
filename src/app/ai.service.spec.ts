@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
@@ -12,8 +11,6 @@ describe('AIService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    const storageSpy = jasmine.createSpyObj('StorageService', ['get']);
-
     TestBed.configureTestingModule({
       imports: [],
       providers: [provideHttpClient(), provideHttpClientTesting(), AIService],
