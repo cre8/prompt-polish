@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "james-extension": {
+    "prompt-polish": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/james-extension",
+            "outputPath": "dist/prompt-polish",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "james-extension:build:production"
+              "buildTarget": "prompt-polish:build:production"
             },
             "development": {
-              "buildTarget": "james-extension:build:development"
+              "buildTarget": "prompt-polish:build:development"
             }
           },
           "defaultConfiguration": "development"
