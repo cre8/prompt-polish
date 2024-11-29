@@ -1,12 +1,7 @@
-name: Build and Test Angular Application
+name: Release
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,14 +21,10 @@ jobs:
     - name: Install dependencies
       run: pnpm install
 
-    - name: Run lint
-      run: pnpm run lint
-
     - name: Build application
       run: pnpm run build
 
-    - name: Upload dist folder as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: extension
-        path: dist/prompt-polish/browser
+    - name: Run semantic-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: npx semantic-release
