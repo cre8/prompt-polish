@@ -10,11 +10,12 @@
       {
         "assets": [
           {
-            "path": "dist/prompt-polish/browser/",
+            "path": "dist/prompt-polish/browser/**",
             "label": "Chrome Extension"
           }
         ]
       }
     ]
-  ]
+  ],
+  "preset": "angular"
 }
