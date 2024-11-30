@@ -41,14 +41,13 @@ jobs:
         name: extension
         path: dist/prompt-polish/browser
 
-    # - name: Upload coverage to Codecov
-    #   uses: codecov/codecov-action@v5
-    #   with:
-    #     files: ./coverage/prompt-polish/lcov.info
-    #     flags: unittests
-    #     name: codecov-umbrella
-    #   env:
-    #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./coverage/prompt-polish/lcov.info
+        flags: unittests
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   e2e:
     runs-on: ubuntu-latest
