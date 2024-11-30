@@ -4,7 +4,15 @@ PromptPolish a chrome extension, allowing you to copy content, polish it up with
 
 ## Installation
 
-In the future this extension will be available on the Chrome Web Store, but for now you need to install it manually by downloading the latest release from the [release page](https://github.com/cre8/prompt-polish/releases).
+### Web Store
+
+In the future this extension will be available on the Chrome Web Store.
+
+### Manual installation
+
+You can get the latest version of the extension from the [releases page](https://github.com/cre8/prompt-polish/releases).
+
+- Download the latest `prompt-polish.zip` file
 
 ## Security
 

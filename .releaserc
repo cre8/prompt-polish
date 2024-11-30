@@ -10,7 +10,7 @@
       {
         "assets": [
           {
-            "path": "dist/prompt-polish/browser/**",
+            "path": "prompt-polish.zip",
             "label": "Chrome Extension"
           }
         ]

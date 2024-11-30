@@ -37,6 +37,9 @@ jobs:
       - name: Build application
         run: pnpm run build
 
+      - name: Pack application
+        run: cd dist/prompt-polish/browser && zip -r ../../../prompt-polish.zip ./*
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
