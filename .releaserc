@@ -8,6 +8,8 @@
     [
       "@semantic-release/github",
       {
+        "successComment": false,
+        "failTitle": false,
         "assets": [
           {
             "path": "prompt-polish.zip",
