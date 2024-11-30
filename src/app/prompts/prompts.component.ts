@@ -44,7 +44,7 @@ export class PromptsComponent implements OnInit {
 
   async add() {
     this.prompts.push(this.form.value.prompt as string);
-    await this.storageService.put('prompts', this.prompts);
+    await this.storageService.set('prompts', this.prompts);
     this.form.reset();
   }
 
@@ -53,6 +53,6 @@ export class PromptsComponent implements OnInit {
       (prompt) => !elements.find((element) => element.value === prompt)
     );
     console.log(this.prompts);
-    this.storageService.put('prompts', this.prompts);
+    this.storageService.set('prompts', this.prompts);
   }
 }

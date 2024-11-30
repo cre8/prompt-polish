@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { TransformComponent } from './transform.component';
-import { AIService } from '../ai.service';
+import { AIService } from '../ais/ai.service';
 import { StorageService } from '../storage.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
