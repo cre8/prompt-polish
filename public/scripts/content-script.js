@@ -7,7 +7,10 @@ function getSelectedText() {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "getSelectedText") {
     const selection = window.getSelection();
-    sendResponse({ text: selection.toString() });
+    const text = selection.toString();
+    if(text.length > 0) {
+      sendResponse({ text: text });
+    }
   }
 
   if (request.action === "replaceText") {
