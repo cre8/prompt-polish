@@ -10,12 +10,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
-import { AIService } from '../ai.service';
+import { AIService } from '../ais/ai.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../storage.service';
 import { Prompt } from '../prompts/prompts.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-transform',
@@ -28,13 +29,18 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     FlexLayoutModule,
     ClipboardModule,
     MatSnackBarModule,
+    MatProgressBarModule,
   ],
   templateUrl: './transform.component.html',
   styleUrl: './transform.component.scss',
 })
 export class TransformComponent implements OnInit {
   prompts: string[] = [];
+  services: string[] = [];
+  loading = false;
+
   form = new FormGroup({
+    service: new FormControl('', Validators.required),
     prompt: new FormControl('', Validators.required),
     input: new FormControl('', Validators.required),
   });
@@ -52,6 +58,13 @@ export class TransformComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.prompts = (await this.storageService.get<Prompt[]>('prompts')) ?? [];
     const input = this.route.snapshot.queryParams['input'] ?? '';
+    const configured = await this.aiService.isConfigured().catch(() => {
+      this.snakbar
+        .open('Please configure the AI in the options page', 'Configure AI')
+        .onAction()
+        .subscribe(() => this.router.navigate(['/ais']));
+    });
+    if (!configured) return;
 
     if (this.prompts.length === 0) {
       this.snakbar
@@ -61,14 +74,28 @@ export class TransformComponent implements OnInit {
       return;
     }
 
+    // get is list of all configured services
+    this.services = await this.aiService.getServices();
+
+    const prompt = await this.storageService
+      .get<string>('prompt')
+      .catch(() => this.prompts[0]);
+
+    const service =
+      (await this.aiService.selectedService()) ?? this.services[0];
+
     this.form.setValue({
-      prompt: this.prompts[0],
+      service,
+      prompt,
       input,
     });
 
     if (input) {
       this.popup = true;
       await this.transform();
+      //save the value for the next time
+      await this.storageService.set('prompt', this.form.value.prompt);
+      await this.aiService.setActive(this.form.value.service!);
       //either allow to auto process for a defined origin or add a new hotkey to do so
     }
   }
@@ -86,17 +113,30 @@ export class TransformComponent implements OnInit {
     }
   }
 
-  transform() {
-    return this.aiService
-      .request(`${this.form.value.prompt}: ${this.form.value.input}`)
+  /**
+   * Transforms the input text
+   * @returns
+   */
+  async transform() {
+    this.loading = true;
+    await this.aiService
+      .request(
+        this.form.value.service!,
+        `${this.form.value.prompt}: ${this.form.value.input}`
+      )
       .then(
         (response) => {
           this.output.setValue(response);
         },
-        (err) => alert(err)
+        //TODO: snackbar should be closed when the click on transform again or is leaving the page
+        (err) => this.snakbar.open(err, 'Close')
       );
+    this.loading = false;
   }
 
+  /**
+   * Replaces the selected text with the transformed text
+   */
   insert(): void {
     const transformedText = this.output.value;
     chrome.runtime
@@ -107,9 +147,5 @@ export class TransformComponent implements OnInit {
       .then(() => {
         window.close();
       });
-  }
-
-  copy() {
-    throw new Error('Method not implemented.');
   }
 }

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { TransformComponent } from './transform/transform.component';
-import { OpenAIComponent } from './ais/open-ai/open-ai.component';
 import { PromptsComponent } from './prompts/prompts.component';
+import { AisComponent } from './ais/ais.component';
 
 export const routes: Routes = [
   {
@@ -9,8 +9,8 @@ export const routes: Routes = [
     component: TransformComponent,
   },
   {
-    path: 'openai',
-    component: OpenAIComponent,
+    path: 'ais',
+    component: AisComponent,
   },
   {
     path: 'prompts',

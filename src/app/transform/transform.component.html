@@ -1,6 +1,14 @@
 <div fxLayout="column">
   <form [formGroup]="form" (ngSubmit)="transform()" fxLayout="column">
     <mat-form-field>
+      <mat-label>Service</mat-label>
+      <mat-select formControlName="service">
+        @for(service of services; track service) {
+        <mat-option [value]="service">{{ service }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>Prompt</mat-label>
       <mat-select formControlName="prompt">
         @for(prompt of prompts; track prompt) {
@@ -56,4 +64,7 @@
       </div>
     </div>
   </form>
+  @if(loading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 </div>

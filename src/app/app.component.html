@@ -5,9 +5,7 @@
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/prompts">Prompts</button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item routerLink="/openai">OpenAI</button>
-    <mat-divider></mat-divider>
+    <button mat-menu-item routerLink="/ais">AIs</button>
     <a
       mat-menu-item
       href="https://github.com/cre8/prompt-polish"
@@ -17,4 +15,6 @@
     >
   </mat-menu>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

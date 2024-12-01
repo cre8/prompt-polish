@@ -1,4 +1,4 @@
-export interface OpenAIResponse {
+export interface AnthropicResponse {
   id: string;
   object: string;
   created: number;
@@ -40,8 +40,9 @@ export interface PromptTokensDetails {
   cached_tokens: number;
   audio_tokens: number;
 }
-export interface OpenAIConfig {
-  token: string;
+export interface AnthropicConfig {
+  apiKey: string;
+  max_tokens: number;
   projectId: string;
   model: string;
 }

@@ -1,22 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpenAIComponent } from './open-ai.component';
+import { AnthropicComponent } from './anthropic.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AnthropicService } from './anthropic.service';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-describe('OpenAIComponent', () => {
-  let component: OpenAIComponent;
-  let fixture: ComponentFixture<OpenAIComponent>;
+describe('AnthropicComponent', () => {
+  let component: AnthropicComponent;
+  let fixture: ComponentFixture<AnthropicComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OpenAIComponent, BrowserAnimationsModule],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
+      imports: [AnthropicComponent, BrowserAnimationsModule],
+      providers: [
+        AnthropicService,
+        provideHttpClient(withInterceptorsFromDi()),
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OpenAIComponent);
+    fixture = TestBed.createComponent(AnthropicComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
