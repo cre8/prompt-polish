@@ -17,6 +17,9 @@ export class StorageService {
     return new Promise((resolve) => {
       if (chrome.storage) {
         chrome.storage.local.set({ [key]: value }).then(() => resolve());
+        chrome.runtime.sendMessage({
+          action: 'updatePrompts',
+        });
       } else {
         localStorage.setItem(key, JSON.stringify(value));
         resolve();

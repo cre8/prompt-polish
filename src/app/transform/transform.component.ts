@@ -58,6 +58,8 @@ export class TransformComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.prompts = (await this.storageService.get<Prompt[]>('prompts')) ?? [];
     const input = this.route.snapshot.queryParams['input'] ?? '';
+    let prompt = this.route.snapshot.queryParams['prompt'];
+    const auto = this.route.snapshot.queryParams['auto'];
 
     const configured = await this.aiService
       .isConfigured()
@@ -83,9 +85,11 @@ export class TransformComponent implements OnInit {
         .subscribe(() => this.router.navigate(['/prompts']));
       return;
     }
-    const prompt = await this.storageService
-      .get<string>('prompt')
-      .catch(() => this.prompts[0]);
+    if (!prompt) {
+      prompt = await this.storageService
+        .get<string>('prompt')
+        .catch(() => this.prompts[0]);
+    }
 
     this.form.setValue({
       service,
@@ -100,6 +104,9 @@ export class TransformComponent implements OnInit {
       await this.storageService.set('prompt', this.form.value.prompt);
       await this.aiService.setActive(this.form.value.service!);
       //either allow to auto process for a defined origin or add a new hotkey to do so
+    }
+    if (auto) {
+      this.insert();
     }
   }
 
