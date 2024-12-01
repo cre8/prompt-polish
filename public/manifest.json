@@ -2,6 +2,7 @@
   "name": "PromptPolish",
   "version": "0.1.0",
   "description": "A tool updating selected text with a defined prompt",
+  "author": "Mirko Mollik <mirkomollik@gmail.com>",
   "manifest_version": 3,
   "action": {
     "default_title": "Prompt Polish",

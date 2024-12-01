@@ -33,8 +33,11 @@ export class StorageService {
     return new Promise((resolve, reject) => {
       if (chrome.storage) {
         chrome.storage.local.get(key, (data: Record<string, T>) => {
-          console.log(data);
-          resolve(data[key]);
+          if (!data[key]) {
+            reject();
+          } else {
+            resolve(data[key]);
+          }
         });
       } else {
         const data = localStorage.getItem(key);

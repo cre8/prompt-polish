@@ -58,13 +58,23 @@ export class TransformComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.prompts = (await this.storageService.get<Prompt[]>('prompts')) ?? [];
     const input = this.route.snapshot.queryParams['input'] ?? '';
-    const configured = await this.aiService.isConfigured().catch(() => {
-      this.snakbar
-        .open('Please configure the AI in the options page', 'Configure AI')
-        .onAction()
-        .subscribe(() => this.router.navigate(['/ais']));
-    });
+
+    const configured = await this.aiService
+      .isConfigured()
+      .then(() => true)
+      .catch(() => {
+        this.snakbar
+          .open('Please configure the AI in the options page', 'Configure AI')
+          .onAction()
+          .subscribe(() => this.router.navigate(['/ais']));
+        return false;
+      });
+
     if (!configured) return;
+    // get is list of all configured services
+    this.services = await this.aiService.getServices();
+    const service =
+      (await this.aiService.selectedService()) ?? this.services[0];
 
     if (this.prompts.length === 0) {
       this.snakbar
@@ -73,16 +83,9 @@ export class TransformComponent implements OnInit {
         .subscribe(() => this.router.navigate(['/prompts']));
       return;
     }
-
-    // get is list of all configured services
-    this.services = await this.aiService.getServices();
-
     const prompt = await this.storageService
       .get<string>('prompt')
       .catch(() => this.prompts[0]);
-
-    const service =
-      (await this.aiService.selectedService()) ?? this.services[0];
 
     this.form.setValue({
       service,

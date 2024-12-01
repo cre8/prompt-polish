@@ -15,7 +15,6 @@ chrome.commands.onCommand.addListener((command) => {
           }
 
           if (response && response.text) {
-            console.log(windowElement);
             if(windowElement && windowElement.id) {
               // Close the Angular application popup if it's already open
               chrome.windows.remove(windowElement.id);
@@ -33,7 +32,7 @@ chrome.commands.onCommand.addListener((command) => {
               url: popupUrl,
               type: "popup",
               width: 600,
-              height: 450,
+              height: 580,
             });
           } else {
             console.error("No response or empty text received.");

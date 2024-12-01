@@ -1,4 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="space-between stretch">
+  @if(aiService.services.length === 0) {
   <mat-form-field class="full">
     <mat-label>Default service</mat-label>
     <mat-select [formControl]="selection">
@@ -9,6 +10,7 @@
       }
     </mat-select>
   </mat-form-field>
+  }
   <mat-tab-group>
     @for(service of aiService.services; track service) {
     <mat-tab [label]="service.label">
