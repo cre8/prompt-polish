@@ -48,10 +48,10 @@ export class PromptsComponent implements OnInit {
     this.form.reset();
   }
 
-  remove(elements: MatListOption[]) {
+  async remove(elements: MatListOption[]) {
     this.prompts = this.prompts.filter(
       (prompt) => !elements.find((element) => element.value === prompt)
     );
-    this.storageService.set('prompts', this.prompts);
+    await this.storageService.set('prompts', this.prompts);
   }
 }
