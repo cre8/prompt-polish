@@ -52,7 +52,6 @@ export class PromptsComponent implements OnInit {
     this.prompts = this.prompts.filter(
       (prompt) => !elements.find((element) => element.value === prompt)
     );
-    console.log(this.prompts);
     this.storageService.set('prompts', this.prompts);
   }
 }

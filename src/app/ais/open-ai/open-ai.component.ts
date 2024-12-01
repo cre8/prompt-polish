@@ -34,7 +34,7 @@ export class OpenAIComponent implements OnInit {
   models: string[] = ['gpt-4o-mini'];
 
   form = new FormGroup({
-    token: new FormControl('', Validators.required),
+    apiKey: new FormControl('', Validators.required),
     projectId: new FormControl('', Validators.required),
     model: new FormControl('', Validators.required),
   });

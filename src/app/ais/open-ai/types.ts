@@ -41,7 +41,7 @@ export interface PromptTokensDetails {
   audio_tokens: number;
 }
 export interface OpenAIConfig {
-  token: string;
+  apiKey: string;
   projectId: string;
   model: string;
 }

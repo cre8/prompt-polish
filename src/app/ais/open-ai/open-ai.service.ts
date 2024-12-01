@@ -42,7 +42,7 @@ export class OpenAIService extends AI<OpenAIConfig> {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${values.token}`,
+            Authorization: `Bearer ${values.apiKey}`,
             'Openai-Project': values.projectId,
           },
         }
@@ -76,7 +76,7 @@ export class OpenAIService extends AI<OpenAIConfig> {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${config.token}`,
+            Authorization: `Bearer ${config.apiKey}`,
             'Openai-Project': config.projectId,
           },
         }
@@ -99,7 +99,7 @@ export class OpenAIService extends AI<OpenAIConfig> {
       this.httpClient.get<ModelResponse>('https://api.openai.com/v1/models', {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${config.token}`,
+          Authorization: `Bearer ${config.apiKey}`,
           'Openai-Project': config.projectId,
         },
       })

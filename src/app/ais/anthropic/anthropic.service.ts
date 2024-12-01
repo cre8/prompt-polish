@@ -4,6 +4,7 @@ import { AnthropicConfig } from './types';
 import { HttpClient } from '@angular/common/http';
 import { AI } from '../ai.class';
 import Anthropic from '@anthropic-ai/sdk';
+import { TextBlock } from '@anthropic-ai/sdk/resources/messages.mjs';
 
 @Injectable({
   providedIn: 'root',
@@ -43,10 +44,7 @@ export class AnthropicService extends AI<AnthropicConfig> {
           },
         ],
       })
-      .then((res) => {
-        console.log(res);
-        return '';
-      });
+      .then((res) => (res.content[0] as TextBlock).text);
   }
 
   /**

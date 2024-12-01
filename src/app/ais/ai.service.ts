@@ -64,11 +64,23 @@ export class AIService {
   }
 
   /**
-   * Checks if the AI is configured
-   * @returns
+   * Checks if any AI service is configured
+   * @returns Promise<void>
    */
-  isConfigured() {
-    return this.getSelected();
+  async isConfigured(): Promise<void> {
+    const configPromises = this.services.map((service) =>
+      service.service.getConfig().then(
+        () => true,
+        () => false
+      )
+    );
+
+    const results = await Promise.all(configPromises);
+    if (results.some((result) => result)) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(new Error('No AI service is configured'));
+    }
   }
 
   private async getSelected() {
