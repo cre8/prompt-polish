@@ -4,7 +4,10 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { AIService } from './ai.service';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('AIService', () => {
   let service: AIService;
@@ -13,7 +16,11 @@ describe('AIService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [provideHttpClient(), provideHttpClientTesting(), AIService],
+      providers: [
+        provideHttpClientTesting(),
+        provideHttpClient(withInterceptorsFromDi()),
+        AIService,
+      ],
     });
 
     service = TestBed.inject(AIService);

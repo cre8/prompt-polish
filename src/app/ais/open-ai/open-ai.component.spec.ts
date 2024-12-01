@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpenAIComponent } from './open-ai.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('OpenAIComponent', () => {
   let component: OpenAIComponent;
@@ -9,6 +13,7 @@ describe('OpenAIComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OpenAIComponent, BrowserAnimationsModule],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpenAIComponent);
