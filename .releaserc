@@ -17,7 +17,8 @@
           }
         ]
       }
-    ]
+    ],
+    "semantic-release-export-data"
   ],
   "preset": "angular"
 }
