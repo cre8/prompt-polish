@@ -74,16 +74,20 @@ function updatePrompts() {
   console.log("Updating prompts...");
   const key = "prompts";
   chrome.contextMenus.removeAll();
-  chrome.storage.local.get(key, (data) => {
-    prompts = data[key] || [];
-    for(let id = 0; id < prompts.length; id++) {
-      chrome.contextMenus.create({
-        id: id.toString(),
-        title: prompts[id],
-        contexts: ["selection"],
-      });
-    }
-  });
+  try {
+    chrome.storage.local.get(key, (data) => {
+      prompts = data[key] || [];
+      for(let id = 0; id < prompts.length; id++) {
+        chrome.contextMenus.create({
+          id: id.toString(),
+          title: prompts[id],
+          contexts: ["selection"],
+        });
+      }
+    });
+  } catch(e) {
+    //error is thrown when there is no data in storage
+  }
 }
 
 chrome.runtime.onInstalled.addListener(() => {

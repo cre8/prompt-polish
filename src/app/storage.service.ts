@@ -34,6 +34,7 @@ export class StorageService {
       if (chrome.storage) {
         chrome.storage.local.get(key, (data: Record<string, T>) => {
           if (!data[key]) {
+            console.log('no data for key', key);
             reject();
           } else {
             resolve(data[key]);
