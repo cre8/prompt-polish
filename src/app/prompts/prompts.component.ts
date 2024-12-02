@@ -45,6 +45,9 @@ export class PromptsComponent implements OnInit {
   async add() {
     this.prompts.push(this.form.value.prompt as string);
     await this.storageService.set('prompts', this.prompts);
+    chrome.runtime.sendMessage({
+      action: 'updatePrompts',
+    });
     this.form.reset();
   }
 
@@ -53,5 +56,8 @@ export class PromptsComponent implements OnInit {
       (prompt) => !elements.find((element) => element.value === prompt)
     );
     await this.storageService.set('prompts', this.prompts);
+    chrome.runtime.sendMessage({
+      action: 'updatePrompts',
+    });
   }
 }
