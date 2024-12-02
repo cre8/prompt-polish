@@ -30,7 +30,7 @@
       "description": "Send selected text to the application"
     }
   },
-  "permissions": ["activeTab", "storage", "contextMenus"],
+  "permissions": ["activeTab", "storage", "contextMenus", "scripting"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
   },
@@ -38,13 +38,6 @@
     {
       "resources": ["index.html", "images/*", "*.js", "styles.css"],
       "matches": ["<all_urls>"]
-    }
-  ],
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["scripts/content-script.js"],
-      "all_frames": true
     }
   ]
 }

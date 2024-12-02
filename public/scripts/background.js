@@ -1,17 +1,34 @@
-
 let tabId = null;
 let windowElement = null;
+
 chrome.commands.onCommand.addListener((command) => {
   if (command === "send-selected-text") {
     // Query the active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
         tabId = tabs[0].id;
-        send();
+        console.log("Tab ID:", tabId);
+        injectContentScript(tabId, send);
       }
     });
   }
 });
+
+function injectContentScript(tabId, callback) {
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tabId },
+      files: ["scripts/content-script.js"]
+    },
+    () => {
+      if (chrome.runtime.lastError) {
+        console.error("Error injecting content script:", chrome.runtime.lastError.message);
+        return;
+      }
+      callback();
+    }
+  );
+}
 
 function send(prompt) {
   // Send a message to the content script to retrieve the selected text
@@ -22,9 +39,14 @@ function send(prompt) {
     }
 
     if (response && response.text) {
-      if(windowElement && windowElement.id) {
+      if (windowElement && windowElement.id) {
         // Close the Angular application popup if it's already open
-        chrome.windows.remove(windowElement.id);
+        try {
+          await chrome.windows.remove(windowElement.id);
+          console.log("Window removed successfully");
+        } catch (error) {
+          console.error("Error removing window:", error);
+        }
         windowElement = null;
       }
 
@@ -33,18 +55,23 @@ function send(prompt) {
         chrome.runtime.getURL("index.html#/") +
         "?input=" +
         encodeURIComponent(response.text);
-      if(prompt) {
+      if (prompt) {
         popupUrl += "&prompt=" + encodeURIComponent(prompt);
         popupUrl += "&auto=true";
       }
 
       // Open the Angular application popup
-      windowElement = await chrome.windows.create({
-        url: popupUrl,
-        type: "popup",
-        width: 600,
-        height: 580,
-      });
+      try {
+        windowElement = await chrome.windows.create({
+          url: popupUrl,
+          type: "popup",
+          width: 600,
+          height: 580,
+        });
+        console.log("Window created with ID:", windowElement.id);
+      } catch (error) {
+        console.error("Error creating window:", error);
+      }
     } else {
       console.error("No response or empty text received.");
     }
@@ -52,20 +79,21 @@ function send(prompt) {
 }
 
 chrome.runtime.onMessage.addListener((request) => {
-  switch(request.action) {
-  case "replaceSelectedText":
-    chrome.tabs.sendMessage(tabId, { action: "replaceText", text: request.text });
-    break;
-  case "updatePrompts":
-    updatePrompts();
-    break;
+  switch (request.action) {
+    case "replaceSelectedText":
+      chrome.tabs.sendMessage(tabId, { action: "replaceText", text: request.text });
+      break;
+    case "updatePrompts":
+      updatePrompts();
+      break;
   }
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   tabId = tab.id;
+  console.log("Tab ID:", tabId);
   const prompt = prompts[parseInt(info.menuItemId)];
-  send(prompt);
+  injectContentScript(tabId, () => send(prompt));
 });
 
 let prompts = [];
@@ -77,7 +105,7 @@ function updatePrompts() {
   try {
     chrome.storage.local.get(key, (data) => {
       prompts = data[key] || [];
-      for(let id = 0; id < prompts.length; id++) {
+      for (let id = 0; id < prompts.length; id++) {
         chrome.contextMenus.create({
           id: id.toString(),
           title: prompts[id],
@@ -85,8 +113,8 @@ function updatePrompts() {
         });
       }
     });
-  } catch(e) {
-    //error is thrown when there is no data in storage
+  } catch (e) {
+    console.error("Error updating prompts:", e);
   }
 }
 
