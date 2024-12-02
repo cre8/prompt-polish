@@ -56,7 +56,9 @@ export class TransformComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.prompts = (await this.storageService.get<Prompt[]>('prompts')) ?? [];
+    this.prompts = await this.storageService
+      .get<Prompt[]>('prompts')
+      .catch(() => []);
     const input = this.route.snapshot.queryParams['input'] ?? '';
     let prompt = this.route.snapshot.queryParams['prompt'];
     const auto = this.route.snapshot.queryParams['auto'];
@@ -75,8 +77,9 @@ export class TransformComponent implements OnInit {
     if (!configured) return;
     // get is list of all configured services
     this.services = await this.aiService.getServices();
-    const service =
-      (await this.aiService.selectedService()) ?? this.services[0];
+    const service = await this.aiService
+      .selectedService()
+      .catch(() => this.services[0]);
 
     if (this.prompts.length === 0) {
       this.snakbar
