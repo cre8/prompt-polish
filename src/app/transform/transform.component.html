@@ -10,11 +10,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Prompt</mat-label>
-      <mat-select formControlName="prompt">
-        @for(prompt of prompts; track prompt) {
-        <mat-option [value]="prompt">{{ prompt }}</mat-option>
+      <input
+        formControlName="prompt"
+        matInput
+        placeholder="Enter Prompt"
+        type="text"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option">{{ option }}</mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
     <div fxLayout="row" fxLayoutGap="16px">
       <div fxLayout="column" fxFlex="50">
