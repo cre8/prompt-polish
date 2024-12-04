@@ -20,6 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import { map, Observable, startWith } from 'rxjs';
+import { PastHotKey } from '../settings/settings.component';
 
 @Component({
   selector: 'app-transform',
@@ -53,6 +54,7 @@ export class TransformComponent implements OnInit, OnDestroy {
   });
   output = new FormControl('', Validators.required);
   popup = false;
+  hotkeys!: PastHotKey;
 
   constructor(
     private aiService: AIService,
@@ -69,6 +71,10 @@ export class TransformComponent implements OnInit, OnDestroy {
     const input = this.route.snapshot.queryParams['input'] ?? '';
     let prompt = this.route.snapshot.queryParams['prompt'];
     const auto = this.route.snapshot.queryParams['auto'];
+    this.hotkeys = await this.storageService
+      .get<PastHotKey>('pastHotKey')
+      //TODO: catch should be placed into settings service so it can be reused
+      .catch(() => ({ specialKey: 'ctrl', hotKey: 'a' }));
 
     this.filteredOptions = this.form.controls.prompt.valueChanges.pipe(
       startWith(''),
@@ -138,10 +144,13 @@ export class TransformComponent implements OnInit, OnDestroy {
    */
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
-    //TODO: allow the user to customize the key command
-    if (event.ctrlKey && event.key === 'a') {
-      event.preventDefault(); // Prevent default browser behavior
-      this.insert();
+    // only when it is trigered with selected tect we register it
+    if (!this.popup) return;
+    if (this.hotkeys.specialKey === 'ctrl') {
+      if (event.ctrlKey && event.key === this.hotkeys.hotKey) {
+        event.preventDefault(); // Prevent default browser behavior
+        this.insert();
+      }
     }
   }
 

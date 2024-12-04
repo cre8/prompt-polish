@@ -1,0 +1,24 @@
+<p>Combination to insert the text</p>
+<form
+  [formGroup]="pastHotKey"
+  fxLayout="row"
+  fxLayoutGap="16px"
+  fxLayoutAlign="start center"
+  (submit)="saveKeys()"
+>
+  <mat-form-field>
+    <mat-label>SpecialKey</mat-label>
+    <mat-select formControlName="specialKey">
+      @for(key of specialKeys; track specialKeys) {
+      <mat-option [value]="key">
+        {{ key }}
+      </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>HotKey</mat-label>
+    <input matInput formControlName="hotKey" placeholder="a" />
+  </mat-form-field>
+  <button mat-button type="submit" [disabled]="pastHotKey.invalid">Save</button>
+</form>
