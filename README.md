@@ -77,3 +77,7 @@ The extension is built using Angular. To run the extension locally, follow the s
 - Select the `dist/prompt-polish/browser/` folder in the repository.
 
 When you update the files in the `public` folder, you need to restart it manually since this folder is not watched by the Angular CLI. After an update of the code, normally closing and opening the extension should be enough. When doing changes on the manifest file, you need to refresh it in the extensions page.
+
+## Contribution
+
+Contributions are welcomed, look into the [CONTRIBUTING](./CONTRIBUTING) for more information.
