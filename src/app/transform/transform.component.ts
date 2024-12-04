@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -17,10 +17,15 @@ import { Prompt } from '../prompts/prompts.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CommonModule } from '@angular/common';
+import { map, Observable, startWith } from 'rxjs';
+import { PastHotKey } from '../settings/settings.component';
 
 @Component({
   selector: 'app-transform',
   imports: [
+    CommonModule,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
@@ -30,14 +35,17 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ClipboardModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './transform.component.html',
   styleUrl: './transform.component.scss',
 })
-export class TransformComponent implements OnInit {
+export class TransformComponent implements OnInit, OnDestroy {
   prompts: string[] = [];
   services: string[] = [];
   loading = false;
+
+  filteredOptions!: Observable<string[]>;
 
   form = new FormGroup({
     service: new FormControl('', Validators.required),
@@ -46,12 +54,13 @@ export class TransformComponent implements OnInit {
   });
   output = new FormControl('', Validators.required);
   popup = false;
+  hotkeys!: PastHotKey;
 
   constructor(
     private aiService: AIService,
     private route: ActivatedRoute,
     private storageService: StorageService,
-    private snakbar: MatSnackBar,
+    private snackbar: MatSnackBar,
     private router: Router
   ) {}
 
@@ -62,12 +71,21 @@ export class TransformComponent implements OnInit {
     const input = this.route.snapshot.queryParams['input'] ?? '';
     let prompt = this.route.snapshot.queryParams['prompt'];
     const auto = this.route.snapshot.queryParams['auto'];
+    this.hotkeys = await this.storageService
+      .get<PastHotKey>('pastHotKey')
+      //TODO: catch should be placed into settings service so it can be reused
+      .catch(() => ({ specialKey: 'ctrl', hotKey: 'a' }));
+
+    this.filteredOptions = this.form.controls.prompt.valueChanges.pipe(
+      startWith(''),
+      map((value) => this.filterPrompts(value || ''))
+    );
 
     const configured = await this.aiService
       .isConfigured()
       .then(() => true)
       .catch(() => {
-        this.snakbar
+        this.snackbar
           .open('Please configure the AI in the options page', 'Configure AI')
           .onAction()
           .subscribe(() => this.router.navigate(['/ais']));
@@ -82,7 +100,7 @@ export class TransformComponent implements OnInit {
       .catch(() => this.services[0]);
 
     if (this.prompts.length === 0) {
-      this.snakbar
+      this.snackbar
         .open('Please add prompts in the options page', 'Add propmpts')
         .onAction()
         .subscribe(() => this.router.navigate(['/prompts']));
@@ -114,15 +132,25 @@ export class TransformComponent implements OnInit {
   }
 
   /**
+   * Clean up the snackbar
+   */
+  ngOnDestroy(): void {
+    this.snackbar.dismiss();
+  }
+
+  /**
    * Listen to the key command to enter the transformed text
    * @param event
    */
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
-    //TODO: allow the user to customize the key command
-    if (event.ctrlKey && event.key === 'a') {
-      event.preventDefault(); // Prevent default browser behavior
-      this.insert();
+    // only when it is trigered with selected tect we register it
+    if (!this.popup) return;
+    if (this.hotkeys.specialKey === 'ctrl') {
+      if (event.ctrlKey && event.key === this.hotkeys.hotKey) {
+        event.preventDefault(); // Prevent default browser behavior
+        this.insert();
+      }
     }
   }
 
@@ -141,8 +169,7 @@ export class TransformComponent implements OnInit {
         (response) => {
           this.output.setValue(response);
         },
-        //TODO: snackbar should be closed when the click on transform again or is leaving the page
-        (err) => this.snakbar.open(err, 'Close')
+        (err) => this.snackbar.open(err, 'Close')
       );
     this.loading = false;
   }
@@ -160,5 +187,17 @@ export class TransformComponent implements OnInit {
       .then(() => {
         window.close();
       });
+  }
+
+  /**
+   * Filters the prompts based on the input value
+   * @param value
+   * @returns
+   */
+  private filterPrompts(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.prompts.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 }

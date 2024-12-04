@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './open-ai.component.html',
   styleUrl: './open-ai.component.scss',
 })
-export class OpenAIComponent implements OnInit {
+export class OpenAIComponent implements OnInit, OnDestroy {
   // we need to define some basic models, because the list of models is fetched from the openai api only with a valid token
   models: string[] = ['gpt-4o-mini'];
 
@@ -56,6 +56,13 @@ export class OpenAIComponent implements OnInit {
         //do nothing
       }
     );
+  }
+
+  /**
+   * Clean up the snackbar
+   */
+  ngOnDestroy(): void {
+    this.snackbar.dismiss();
   }
 
   submit() {

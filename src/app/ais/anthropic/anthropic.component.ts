@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './anthropic.component.html',
   styleUrl: './anthropic.component.scss',
 })
-export class AnthropicComponent implements OnInit {
+export class AnthropicComponent implements OnInit, OnDestroy {
   // we need to define some basic models, because the list of models is fetched from the anthropic api only with a valid token
   models: string[] = [''];
 
@@ -55,6 +55,13 @@ export class AnthropicComponent implements OnInit {
       }
     );
     this.anthropicService.getModels().then((models) => (this.models = models));
+  }
+
+  /**
+   * Clean up the snackbar
+   */
+  ngOnDestroy(): void {
+    this.snackbar.dismiss();
   }
 
   submit() {
