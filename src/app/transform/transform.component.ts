@@ -105,7 +105,7 @@ export class TransformComponent implements OnInit {
       await this.transform();
       //save the value for the next time
       await this.storageService.set('prompt', this.form.value.prompt);
-      await this.aiService.setActive(this.form.value.service!);
+      await this.aiService.setService(this.form.value.service!);
       //either allow to auto process for a defined origin or add a new hotkey to do so
     }
     if (auto) {

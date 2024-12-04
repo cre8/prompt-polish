@@ -1,0 +1,67 @@
+# Contributing to Prompt Polish
+
+Thank you for considering contributing to the **Prompt Polish** project! Contributions are welcome and appreciated. Whether you want to report a bug, propose a feature, or submit code, this guide will help you understand how to get involved.
+
+## How to Contribute
+
+### Reporting Issues
+
+- **Search for existing issues** to avoid duplicates.
+- If you can't find a similar issue, create a new one.
+  - Use a clear and descriptive title.
+  - Provide as much detail as possible (steps to reproduce, expected behavior, environment, etc.).
+
+### Proposing Features
+
+- Open an issue to discuss your idea before submitting a pull request.
+- Explain:
+  - The problem your feature solves.
+  - How it aligns with the project's goals.
+
+### Submitting Code Changes
+
+1. **Fork the repository** and create your branch:
+
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+
+2. Ensure your branch follows the naming convention `feature/<name>` or `fix/<name>`.
+3. Follow the project's coding standards.
+4. Test your changes thoroughly.
+5. Commit changes with a descriptive message:
+
+   ```bash
+   git commit -s -m "Add feature: Description of feature"
+   ```
+
+   (The `-s` flag ensures you sign off your commit for the DCO.)
+
+### Pull Requests
+
+- Ensure all tests pass locally.
+- Submit your pull request with a clear description.
+- Link relevant issues (e.g., `Fixes #123`).
+- Each pull request must be signed-off for the [Developer Certificate of Origin (DCO)](https://developercertificate.org/).
+
+### Development Guidelines
+
+- Ensure your changes are consistent with the project's structure and style.
+- Write clean, modular, and well-documented code.
+- Include test cases for any new functionality.
+
+### Testing
+
+- Run all tests to ensure no existing functionality is broken.
+- Add new tests for added features or bug fixes.
+- To run tests, use:
+
+  ```bash
+  npm run test
+  ```
+
+## Getting Help
+
+If you have questions or need help, feel free to:
+
+- Tag your issue with `help wanted`.

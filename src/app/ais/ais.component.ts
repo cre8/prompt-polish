@@ -12,8 +12,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./ais.component.scss'],
 })
 export class AisComponent implements OnInit {
+  // list of all services
   services: string[] = [];
 
+  // form field for the selected service
   selection = new FormControl('');
 
   constructor(public aiService: AIService) {}
@@ -23,11 +25,12 @@ export class AisComponent implements OnInit {
     this.services = await this.aiService.getServices();
     this.aiService
       .selectedService()
+      // if no service is selected, default to the first one
       .catch(() => this.services[0])
       .then((service) => this.selection.setValue(service));
 
     this.selection.valueChanges.subscribe((service) =>
-      this.aiService.setActive(service!)
+      this.aiService.setService(service!)
     );
   }
 }
