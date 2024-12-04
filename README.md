@@ -6,13 +6,21 @@
 [![Last Commit](https://img.shields.io/github/last-commit/cre8/prompt-polish)](https://github.com/cre8/prompt-polish/commits/main)
 [![Open Issues](https://img.shields.io/github/issues/cre8/prompt-polish)](https://github.com/cre8/prompt-polish/issues)
 
+![PromptPolish](./docs/prompt.png)
+
 PromptPolish is a chrome extension, allowing you to copy content, polish it up with a prompt and an AI model, and paste it back to in the website.
 
 ## Installation
 
 ### Web Store
 
-In the future this extension will be available on the Chrome Web Store.
+You can install the extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/promptpolish/alahndbompemffbdajgeelhhdoagcglh). Since this extension is new to the store, you will get a warning during the installation when Safe Browsing is enabled.
+
+> For new developers, it will take at least a few months of respecting these conditions to become trusted
+
+[Google Blog](https://blog.google/intl/en-in/company-news/technology/new-protections-enhanced-safe-browsing-users-chrome/)
+
+All functions are also available when you build the extension yourself and add it to your browser.
 
 ### Manual installation
 
@@ -38,7 +46,7 @@ Prompt information and access tokens are stored in the browser storage and will 
 
 ## Supported AI Services
 
-Before using the extension, you need configure at least of the the supported AI services. More AI Services can be added to this project by anyone.
+Before using the extension, you need configure at least of the the supported AI services. More AI Services can be added to this project by anyone. In case you want to add a new AI service, look [here](./docs/add-ai-services.md) for more information.
 
 The usage of ChatGPT for this tool is not possible since there is no API available for it.
 
@@ -62,8 +70,10 @@ The extension is built using Angular. To run the extension locally, follow the s
 
 - Clone the repository
 - Run `pnpm install`
-- Run `pnpm run build`
+- Run `pnpm run watch`
 - Open Chrome and go to `chrome://extensions/`
 - Enable developer mode
 - Click on `Load unpacked`
 - Select the `dist/prompt-polish/browser/` folder in the repository.
+
+When you update the files in the `public` folder, you need to restart it manually since this folder is not watched by the Angular CLI. After an update of the code, normally closing and opening the extension should be enough. When doing changes on the manifest file, you need to refresh it in the extensions page.

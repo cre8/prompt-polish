@@ -1,16 +1,10 @@
-import { inject, Injectable, Type } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { OpenAIService } from './open-ai/open-ai.service';
 import { OpenAIComponent } from './open-ai/open-ai.component';
-import { AI } from './ai.class';
 import { StorageService } from '../storage.service';
 import { AnthropicService } from './anthropic/anthropic.service';
 import { AnthropicComponent } from './anthropic/anthropic.component';
-
-interface Service {
-  label: string;
-  service: AI<unknown>;
-  component: Type<unknown>;
-}
+import { Service } from './types';
 
 /**
  * Service to make the different AI requests
@@ -19,6 +13,9 @@ interface Service {
   providedIn: 'root',
 })
 export class AIService {
+  /**
+   * List of services
+   */
   services: Service[] = [
     {
       label: 'OpenAI',
@@ -34,6 +31,10 @@ export class AIService {
 
   constructor(private storageService: StorageService) {}
 
+  /**
+   * Gets the services that have a valid config
+   * @returns
+   */
   async getServices(): Promise<string[]> {
     const valid: string[] = [];
     for (const service of this.services) {
@@ -49,18 +50,22 @@ export class AIService {
     return valid;
   }
 
-  setActive(service: string) {
+  /**
+   * Sets the active AI service
+   * @param service
+   */
+  setService(service: string) {
     this.storageService.set('active-service', service);
   }
 
+  /**
+   * Gets the active AI service
+   * @returns
+   */
   selectedService(): Promise<string> {
     return this.storageService.get<string>('active-service').catch(() => {
       throw new Error('No service selected');
     });
-  }
-
-  setService(service: string) {
-    this.storageService.set('active-service', service);
   }
 
   /**
@@ -81,11 +86,6 @@ export class AIService {
     } else {
       return Promise.reject(new Error('No AI service is configured'));
     }
-  }
-
-  private async getSelected() {
-    const selected = await this.selectedService();
-    return this.services.find((service) => service.label === selected);
   }
 
   /**
