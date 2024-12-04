@@ -6,6 +6,8 @@
 [![Last Commit](https://img.shields.io/github/last-commit/cre8/prompt-polish)](https://github.com/cre8/prompt-polish/commits/main)
 [![Open Issues](https://img.shields.io/github/issues/cre8/prompt-polish)](https://github.com/cre8/prompt-polish/issues)
 
+![PromptPolish](./docs/prompt.png)
+
 PromptPolish is a chrome extension, allowing you to copy content, polish it up with a prompt and an AI model, and paste it back to in the website.
 
 ## Installation
