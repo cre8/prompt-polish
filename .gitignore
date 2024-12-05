@@ -1,6 +1,7 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 .env
+prompt-polish.zip
 
 # Compiled output
 /dist
