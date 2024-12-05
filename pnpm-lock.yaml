@@ -84,12 +84,18 @@ importers:
       chrome-webstore-upload:
         specifier: ^3.1.4
         version: 3.1.4
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
       esbuild:
         specifier: ^0.24.0
         version: 0.24.0
       eslint:
         specifier: ^9.15.0
         version: 9.15.0(jiti@1.21.6)
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
       jasmine-core:
         specifier: ~5.4.0
         version: 5.4.0
@@ -2882,6 +2888,10 @@ packages:
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
+
+  dotenv@16.4.7:
+    resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
 
   duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
@@ -8773,6 +8783,8 @@ snapshots:
   dot-prop@5.3.0:
     dependencies:
       is-obj: 2.0.0
+
+  dotenv@16.4.7: {}
 
   duplexer2@0.1.4:
     dependencies:

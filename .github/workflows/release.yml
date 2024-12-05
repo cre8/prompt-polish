@@ -1,6 +1,12 @@
 name: Release
 on:
   workflow_dispatch:
+    inputs:
+      push_to_chrome_webstore:
+        description: 'Push release to Chrome Web Store'
+        required: true
+        default: 'false'
+
 
 permissions:
   contents: read # for checkout
@@ -40,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set version
-        run: node update-version.mjs ${{ steps.get-next-version.outputs.new-release-version }}
+        run: node node/update-version.mjs ${{ steps.get-next-version.outputs.new-release-version }}
 
       - name: Build application
         run: pnpm run build
@@ -52,3 +58,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+      - name: Push to Chrome Web Store
+        if: ${{ github.event.inputs.push_to_chrome_webstore == 'true' }}
+        run: node scripts/release-chrome-webstore.mjs
+        env:
+          EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}

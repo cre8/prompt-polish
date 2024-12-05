@@ -40,7 +40,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set version
-      run: node update-version.mjs ${{ steps.get-next-version.outputs.new-release-version }}
+      run: node node/update-version.mjs ${{ steps.get-next-version.outputs.new-release-version }}
 
     - name: Build application
       run: pnpm run build
